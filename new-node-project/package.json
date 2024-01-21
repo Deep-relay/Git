@@ -7,7 +7,7 @@
     "start": "node New_Node_Test_File.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon New_Node_Test_File.js",
-    "build:ui": "rm -rf dist && cd ../vite-project && pnpm run build && cp -r dist ../new-node-project",
+    "build:ui": "rm -rf dist && cd ../vite-project && pnpm run build && cp -r dist ../new-node-project &&cd ../new-node-project&& pnpm start",
     "deploy:full": "npm run build:ui &&cd ..&& git add . && git commit -m uibuild && git push"
   },
   "author": "Nihal",
