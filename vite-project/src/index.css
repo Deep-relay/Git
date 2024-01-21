@@ -29,7 +29,6 @@ a:hover {
 h2 {
     font-size: 1.7em;
     line-height: 1.1;
-    margin-left: 7px;
 }
 
 button {
@@ -65,11 +64,11 @@ button:focus-visible {
         background-color: #f9f9f9;
     }
 }
-.notif {
+.notif_accepted {
     display: block;
 	width:99%;
     justify-content: center;
-    background-color: grey;
+    background-color: #242424;
 	transition: 1s;
 	
 	
@@ -85,7 +84,7 @@ button:focus-visible {
 	display: block;
 	width:99%;
     justify-content: center;
-    background-color: grey;
+    background-color: #242424;
 	transition: 1s;
 }
 .notif_deleted>p{
@@ -97,7 +96,7 @@ button:focus-visible {
 
 }
 .div_class_number {
-    margin-left: 7px;
+    margin-left: 65px;
 }
 .div_class_number > button {
     visibility: hidden;
@@ -107,5 +106,32 @@ button:focus-visible {
     display: inline;
 }
 .div_for_input {
-    margin-left: 7px;
+    text-align: center;
+}
+.div-class-for-form-and-add-button{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+}
+.div-for-submit-button{
+    display:inline;
+}
+.div-class-for-number-and-name-display {
+    margin-left: 27px;
+    display: block;
+    overflow-y: scroll; /* Enable vertical scrolling */
+    height: 200px; /* Set the maximum height for the scrollable container */
+ 
+}
+.ye-div-sab-kuch-contain-krta-hai{
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+.ye-andar-ka-box-banane-ke-liye-div{
+    background-color: antiquewhite;
+    color: #1a1a1a;
+    display:block;
+
 }
