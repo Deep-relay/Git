@@ -14,5 +14,4 @@ personSchema.set('toJSON',{
         delete ret.__v
     }
 })
-const Person=mongoose.model('Person',personSchema)
-module.exports=Person
+module.exports=mongoose.model('Person',personSchema)
