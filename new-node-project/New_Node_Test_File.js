@@ -45,8 +45,8 @@
 // });
 
 //yaha se upar 3rd part ke 'a' part ke examples kre hue hain
-const Person=require('./mongo')
 require('dotenv').config()
+const Person=require('./mongo')
 let cors=require('cors')
 let express = require("express");
 let morgan = require("morgan");
