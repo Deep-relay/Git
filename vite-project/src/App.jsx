@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./index.css";
-const baseurl = "/api/persons";
+// const baseurl = "/api/persons";
+const baseurl="http://localhost:3001/api/persons/"
 const Filter = ({ persons, constraint }) => {
     if (constraint === "") return "";
     return persons.map((item) => {
@@ -15,7 +16,13 @@ const Filter = ({ persons, constraint }) => {
 };
 const Number = ({ persons, item, setPersons, setDeletedMessage }) => {
     return (
+        
         <div className="div_class_number">
+            <button className="button_class_number"
+            onClick={()=>{
+                if(window.confirm('Copy Number'))
+                navigator.clipboard.writeText(item.number)
+            }}>Copy</button>
             {item.name} {item.number}
             <button
                 className="button_class_number"
