@@ -56,7 +56,7 @@ let date_obj = new Date();
 //         number: "39-23-6423122",
 //     },
 // ];
-let port = process.env.port;
+let port = process.env.port||process.env.PORT;
 let persons = null;
 app.get("/api", (req, res) => {
     res.send("Hi, you are on the Start page of the persons api");
