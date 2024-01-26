@@ -1,50 +1,3 @@
-// let express = require("express");
-// const app = express();
-// app.use(express.json());
-// let notes = [
-//     { id: 1, content: "HTML is easy", important: true },
-//     { id: 2, content: "Browser can execute only JavaScript", important: false },
-//     {
-//         id: 3,
-//         content: "GET and POST are the most important methods of HTTP protocol",
-//         important: true,
-//     },
-// ];
-// app.get("/", (request, response) => {
-//     response.send("<h1>Hello World!</h1>");
-// });
-
-// app.get("/api/notes", (request, response) => {
-//     response.send(notes);
-// });
-// app.get("/api/notes/:id", (request, response) => {
-//     console.log(request.params.id);
-//     console.log(typeof request.params.id);
-//     console.log(typeof notes[0].id);
-//     const id = request.params.id;
-//     const note = notes.find((note) => note.id == id);
-//     if (note) response.status(201).send(note);
-//     else response.status(469).send("not found").end();
-// });
-// app.delete("/api/notes/:id", (req, res) => {
-//     const id = Number(req.params.id);
-//     notes = notes.filter((item) => item.id !== id);
-//     res.status(204).end();
-// });
-// app.post("/api/notes/:id", (req, res) => {
-//     const new_note = req.body;
-//     const place = Number(req.params.id);
-//     console.log(new_note);
-//     // const aux_var=JSON.stringify(new_note)
-//     notes.splice(place - 1, 0, new_note);
-//     res.status(205).end();
-// });
-// const PORT = 3001;
-// app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`);
-// });
-
-//yaha se upar 3rd part ke 'a' part ke examples kre hue hain
 require("dotenv").config();
 const Person = require("./mongo");
 let cors = require("cors");
@@ -53,7 +6,7 @@ let morgan = require("morgan");
 let app = express();
 app.use(express.json());
 app.use(cors());
-//app.use(express.static('dist'))
+app.use(express.static('dist'))
 app.use(
     morgan(function (tokens, req, res) {
         let final_result;
