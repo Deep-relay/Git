@@ -45,21 +45,21 @@
 // });
 
 //yaha se upar 3rd part ke 'a' part ke examples kre hue hain
-require('dotenv').config()
-const Person=require('./mongo')
-let cors=require('cors')
+require("dotenv").config();
+const Person = require("./mongo");
+let cors = require("cors");
 let express = require("express");
 let morgan = require("morgan");
 let app = express();
 app.use(express.json());
-app.use(cors())
-app.use(express.static('dist')) 
+app.use(cors());
+//app.use(express.static('dist'))
 app.use(
     morgan(function (tokens, req, res) {
         let final_result;
-        console.log(req.body)
-        console.log(Object.keys(req.body).length)
-        let temp_var_for_req_body_obj=req.body
+        console.log(req.body);
+        console.log(Object.keys(req.body).length);
+        let temp_var_for_req_body_obj = req.body;
         let temp_var_for_req_body_string = JSON.stringify(req.body);
         let result_part_1 = [
             tokens.method(req, res),
@@ -70,8 +70,8 @@ app.use(
             tokens["response-time"](req, res),
             "ms",
         ].join(" ");
-        console.log(temp_var_for_req_body_string)
-        console.log(temp_var_for_req_body_string.length)
+        console.log(temp_var_for_req_body_string);
+        console.log(temp_var_for_req_body_string.length);
         if (Object.keys(temp_var_for_req_body_obj).length) {
             final_result = result_part_1 + temp_var_for_req_body_string;
         } else {
@@ -104,12 +104,13 @@ let date_obj = new Date();
 //     },
 // ];
 let port = process.env.port;
+let persons = null;
 app.get("/api", (req, res) => {
     res.send("Hi, you are on the Start page of the persons api");
 });
 app.get("/api/persons", (req, res) => {
     // console.log(persons)
-    Person.find({}).then(persons=>res.json(persons))
+    Person.find({}).then((result) => res.json(result));
 });
 app.get("/api/info", (req, res) => {
     let date = date_obj.getTime();
@@ -118,30 +119,33 @@ app.get("/api/info", (req, res) => {
     ${date_obj}</p>`);
 });
 app.get("/api/persons/:id", (req, res) => {
-    let id = Number(req.params.id);
-    let result = persons.find((item) => item.id === id);
-
-    if (result) res.json(result);
-    else res.send("Not found");
+    Person.findById(req.params.id)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((result) => {
+            res.status(404).send(`<p>Doesn't exist</p>`);
+        });
 });
+app.put("/api/persons/:id", (req, res) => {
+    Person.findByIdAndUpdate(req.params.id, { name: req.body.name, number: req.body.number }).then(
+        (result) => {
+            res.end();
+        }
+    );
+});
+
 app.delete("/api/persons/:id", (request, response) => {
-    let id = Number(request.params.id);
-    persons = persons.filter((item) => item.id !== id);
-    response.send(`Deletd ${id}`);
+    console.log(typeof request.params.id);
+    Person.deleteOne({ _id: request.params.id })
+        .then((item) => response.send("Deleted contents"))
+        .catch(() => console.log("error"));
 });
 app.post("/api/persons/", (request, response) => {
-    let new_person = request.body;
-    if (!("name" in new_person && "number" in new_person)) {
-        response.send("Incomplete Entry");
-        return;
-    }
-    if (persons.find((item) => item.name === new_person.name)) {
-        response.send("Name already present");
-        return;
-    }
-    new_person["id"] = persons.length + 1;
-    persons.push(new_person);
-    response.end();
+    const new_person = new Person({ name: request.body.name, number: request.body.number });
+    new_person.save().then(() => {
+        response.end();
+    });
 });
 app.listen(port, () => {
     console.log(`running at ${port}`);

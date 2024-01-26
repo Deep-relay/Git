@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./index.css";
-const baseurl = "/api/persons";
+// const baseurl = "/api/persons";
+const baseurl='http://localhost:3001/api/persons'
 const Filter = ({ persons, constraint }) => {
     if (constraint === "") return "";
     return persons.map((item) => {
@@ -24,7 +25,7 @@ const Number = ({ persons, item, setPersons, setDeletedMessage }) => {
                     if (window.confirm("Do you want to delete this contact")) {
                         console.log(item.id);
                         axios
-                            .delete(baseurl + "/" + String(item.id))
+                            .delete(baseurl + "/" + (item.id))
                             .then(() => {
                                 setPersons(
                                     persons.filter((data) => {
@@ -48,6 +49,12 @@ const Number = ({ persons, item, setPersons, setDeletedMessage }) => {
 };
 const Numbers = ({ persons, setPersons, setDeletedMessage }) => {
     console.log("numbers rendered");
+    // const store=[];
+    // for(let i in person){
+    //     store.push(person[i])
+    // }
+    console.log('inside Numbers persons is ')
+    console.log(Array.isArray(persons))
     return (
     
          
@@ -62,6 +69,7 @@ const Numbers = ({ persons, setPersons, setDeletedMessage }) => {
                         ></Number>
                     );
                 })
+               
   
     );
 };
@@ -94,10 +102,13 @@ const App = () => {
         console.log("inside effect");
         axios.get(baseurl).then((response) => {
             // if(response.data!==persons)
-            setPersons(() => response.data);
-            console.log(response.data);
+            setPersons(() => response.data)
+            console.log('currently in use effect')
+            console.log(typeof persons)
+            console.log(`persons is ${persons}`)
+            // console.log(`response data is ${response.data}`);
             console.log(persons.length);
-        });
+        })
     }, []);
     const func_for_name_add = (event) => {
         setNewName((prev) => {
@@ -193,15 +204,15 @@ const App = () => {
             if (window.confirm("Do you want to replace")) {
                 axios
                     .put(
-                        "http://localhost:3001/persons/" +
+                        "http://localhost:3001/api/persons/" +
                             String(temp_var_for_find_func_return_name["id"]),
                         {
                             name: newName["name"],
                             number: newName["number"],
                         }
                     )
-                    .then(
-                        setPersons((prev) => {
+                    .then((result)=>
+                        {setPersons((prev) => {
                             let temp_for_persons = [];
                             for (let i of prev) {
                                 console.log(
@@ -224,7 +235,7 @@ const App = () => {
                             console.log("temp for persons");
                             console.log(temp_for_persons);
                             return temp_for_persons;
-                        })
+                        })}
                     );
             }
             return;
@@ -234,15 +245,15 @@ const App = () => {
             if (window.confirm("Do you want to replace")) {
                 axios
                     .put(
-                        "http://localhost:3001/persons/" +
+                        "http://localhost:3001/api/persons/" +
                             String(temp_var_for_find_func_return_number["id"]),
                         {
                             name: newName["name"],
                             number: newName["number"],
                         }
                     )
-                    .then(
-                        setPersons((prev) => {
+                    .then((result)=>
+                    {    setPersons((prev) => {
                             let temp_for_persons = [];
                             for (let i of prev) {
                                 console.log(
@@ -254,7 +265,6 @@ const App = () => {
                                 if (i.id == temp_var_for_find_func_return_number.id) {
                                     console.log("newName wala number= " + String(newName.number));
                                     temp_for_persons.push({
-                                        id: i.id,
                                         number: i.number,
                                         name: newName.name,
                                     });
@@ -265,7 +275,7 @@ const App = () => {
                             console.log("temp for persons");
                             console.log(temp_for_persons);
                             return temp_for_persons;
-                        })
+                        })}
                     );
             }
             return;
@@ -273,7 +283,7 @@ const App = () => {
         axios
             .post(baseurl, newName)
             .then((response) => {
-                axios.get(baseurl).then((response) => setPersons(response.data));
+                 axios.get(baseurl).then((response) => setPersons(response.data));
                 console.log(response);
             })
             .then(setAcceptedMessage("New Person Added"));
